@@ -1,51 +1,53 @@
-#include <stdio.h>
+#include "main.h"
 #include <stdlib.h>
 
 /**
- *  * _realloc - reallocates a memory block using malloc and free (realloc)
- *   * @ptr: pointer
- *    * @old_size: size of old pointer
- *     * @new_size: size of new pointer
- *      * Return: new void pointer or NULL if it fails
+ *  * argstostr - concatenates all the arguments of a program.
+ *   * @ac: argument count.
+ *    * @av: argument vector.
+ *     *
+ *      * Return: pointer of an array of char
  *       */
-
-
-
-void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
+char *argstostr(int ac, char **av)
 {
-		void *ptr1;
-			unsigned int x;
+		char *aout;
+			int c, i, j, ia;
 
-				if (!ptr)
+				if (ac == 0)
 						{
-									ptr1 = malloc(new_size);
-											if (!ptr1)
-															return (NULL);
-													return (ptr1);
-														}
-
-					if (new_size == 0 && ptr != NULL)
+									return (NULL);
+										}
+					for (c = i = 0; i < ac; i++)
 							{
-										free(ptr);
-												return (NULL);
-													}
+										if (av[i] == NULL)
+														return (NULL);
 
-						if (new_size == old_size)
-									return (ptr);
+												for (j = 0; av[i][j] != '\0'; j++)
+																c++;
+														c++;
+															}
 
-							ptr1 = malloc(new_size);
+						aout = malloc((c + 1) * sizeof(char));
 
-								if (!ptr1)
-											return (NULL);
+							if (aout == NULL)
+									{
+												free(aout);
+														return (NULL);
+															}
 
-									if (new_size < old_size)
-												for (; x < new_size; x++)
-																((char *)ptr1)[x] = ((char *)ptr)[x];
-										else
-													for (; x < old_size; x++)
-																	((char *)ptr1)[x] = ((char *)ptr)[x];
+								for (i = j = ia = 0; ia < c; j++, ia++)
+										{
+													if (av[i][j] == '\0')
+																{
+																				aout[ia] = '\n';
+																							i++;
+																										ia++;
+																													j = 0;
+																															}
+															if (ia < c - 1)
+																			aout[ia] = av[i][j];
+																}
+									aout[ia] = '\0';
 
-											free(ptr);
-
-												return (ptr1);
+										return (aout);
 }
